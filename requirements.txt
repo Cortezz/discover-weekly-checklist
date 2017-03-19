@@ -1,2 +1,4 @@
 flask_script
 flask
+spotipy
+python-dotenv
