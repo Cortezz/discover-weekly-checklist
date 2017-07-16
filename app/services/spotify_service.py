@@ -12,4 +12,9 @@ class SpotifyService:
     def me(self):
         endpoint = self.base_url + '/me'
 
-        return requests.get(endpoint, headers=self.headers)
+        response = requests.get(endpoint, headers=self.headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return None

@@ -5,6 +5,7 @@ from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
 
 from app.services.spotify_service import SpotifyService
+from app.services.create_user_service import CreateUserService
 
 log = logging.getLogger(__name__)
 
@@ -14,8 +15,8 @@ oauth = OAuth(current_app)
 
 spotify = oauth.remote_app(
     'spotify',
-    consumer_key=os.environ.get('CLIENT_ID'),
-    consumer_secret=os.environ.get('CLIENT_SECRET'),
+    consumer_key=os.environ.get('CLIENT_ID', 'whatda'),
+    consumer_secret=os.environ.get('CLIENT_SECRET', 'whatda'),
     request_token_params={'scope': 'playlist-read-private'},
     base_url='https://accounts.spotify.com',
     request_token_url=None,
@@ -55,11 +56,10 @@ def spotify_authorized():
     spotify_service = SpotifyService(resp['access_token'])
     me = spotify_service.me()
 
-    return 'Logged in as id={0} name={1} redirect={2}'.format(
-        me.data['id'],
-        me.data['name'],
-        request.args.get('next')
-    )
+    create_user_service = CreateUserService(me['display_name'], me['email'], me['id'])
+    user = create_user_service.call()
+
+    return render_template('playlist.html', user=user)
 
 
 @spotify_bp.route('/playlist')
