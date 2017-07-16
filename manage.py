@@ -31,5 +31,6 @@ def reset_db():
     drop_tables()
     create_tables()
 
+
 if __name__ == "__main__":
     manager.run()

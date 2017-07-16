@@ -6,8 +6,6 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, r
 
 from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
-
-from app.services.create_user_service import CreateUserService
 from app.services.create_token_service import CreateTokenService
 
 log = logging.getLogger(__name__)
