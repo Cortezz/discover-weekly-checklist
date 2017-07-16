@@ -6,6 +6,7 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, r
 
 from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
+from app.services.create_token_service import CreateTokenService
 
 log = logging.getLogger(__name__)
 
@@ -42,22 +43,26 @@ def login():
 
 @spotify_bp.route('/login/authorized')
 def spotify_authorized():
-    resp = spotify.authorized_response()
-    if resp is None:
+    response = spotify.authorized_response()
+    if response is None:
         return 'Access denied: reason={0} error={1}'.format(
             request.args['error_reason'],
             request.args['error_description']
         )
-    if isinstance(resp, OAuthException):
-        return 'Access denied: {0}'.format(resp.message)
+    if isinstance(response, OAuthException):
+        return 'Access denied: {0}'.format(response.message)
 
-    session['oauth_token'] = (resp['access_token'], '')
+    session['oauth_token'] = (response['access_token'], '')
 
-    spotify_service = SpotifyService(resp['access_token'])
+    spotify_service = SpotifyService(response['access_token'])
     me = spotify_service.me()
 
     create_user_service = CreateUserService(me['display_name'], me['email'], me['id'])
     user = create_user_service.call()
+
+    create_token_service = CreateTokenService(response['access_token'], response['token_type'], response['scope'],
+                                              response['expires_in'], response['refresh_token'], user.id)
+    token = create_token_service.call()
 
     return render_template('playlist.html', user=user)
 
@@ -65,6 +70,7 @@ def spotify_authorized():
 @spotify_bp.route('/playlist')
 def playlist():
     return render_template('playlist.html')
+
 
 @spotify.tokengetter
 def get_spotify_oauth_token():

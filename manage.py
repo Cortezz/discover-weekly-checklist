@@ -25,5 +25,12 @@ def drop_db():
     drop_tables()
 
 
+@manager.command
+def reset_db():
+    from app.database import create_tables, drop_tables
+    drop_tables()
+    create_tables()
+
+
 if __name__ == "__main__":
     manager.run()
