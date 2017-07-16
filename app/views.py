@@ -4,6 +4,8 @@ import os
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
 
+from app.services.spotify_service import SpotifyService
+
 log = logging.getLogger(__name__)
 
 spotify_bp = Blueprint('spotify', __name__, template_folder='/templates')
@@ -49,8 +51,15 @@ def spotify_authorized():
         return 'Access denied: {0}'.format(resp.message)
 
     session['oauth_token'] = (resp['access_token'], '')
-    me = spotify.get('/me')
-    return redirect(url_for('spotify.playlist'))
+
+    spotify_service = SpotifyService(resp['access_token'])
+    me = spotify_service.me()
+
+    return 'Logged in as id={0} name={1} redirect={2}'.format(
+        me.data['id'],
+        me.data['name'],
+        request.args.get('next')
+    )
 
 
 @spotify_bp.route('/playlist')
