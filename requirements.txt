@@ -1,4 +1,4 @@
 flask_script
 flask
-spotipy
+flask_oauthlib
 python-dotenv

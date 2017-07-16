@@ -3,6 +3,7 @@ import os
 from logging import StreamHandler
 from dotenv import load_dotenv
 from flask import Flask
+from flask_oauthlib.client import OAuth
 
 def create_app(config_object=None, db_name=None):
     app = Flask(__name__)
