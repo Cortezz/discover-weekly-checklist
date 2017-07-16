@@ -1,2 +1,4 @@
 flask_script
 flask
+flask_oauthlib
+python-dotenv
