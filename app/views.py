@@ -1,5 +1,7 @@
 import logging
 import os
+import datetime
+import timedelta
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
@@ -7,6 +9,8 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, r
 from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
 from app.services.create_token_service import CreateTokenService
+from app.finders.user_finder import UserFinder
+from app.finders.token_finder import TokenFinder
 
 log = logging.getLogger(__name__)
 
@@ -57,12 +61,14 @@ def spotify_authorized():
     spotify_service = SpotifyService(response['access_token'])
     me = spotify_service.me()
 
-    create_user_service = CreateUserService(me['display_name'], me['email'], me['id'])
-    user = create_user_service.call()
+    user = UserFinder.get_from_spotify_id(me['id'])
+    if not user:
+        create_user_service = CreateUserService(me['display_name'], me['email'], me['id'])
+        user = create_user_service.call()
 
-    create_token_service = CreateTokenService(response['access_token'], response['token_type'], response['scope'],
-                                              response['expires_in'], response['refresh_token'], user.id)
-    token = create_token_service.call()
+        create_token_service = CreateTokenService(response['access_token'], response['token_type'], response['scope'],
+                                                  response['expires_in'], response['refresh_token'], user.id)
+        token = create_token_service.call()
 
     return render_template('playlist.html', user=user)
 
@@ -72,6 +78,5 @@ def playlist():
     return render_template('playlist.html')
 
 
-@spotify.tokengetter
 def get_spotify_oauth_token():
     return session.get('oauth_token')
