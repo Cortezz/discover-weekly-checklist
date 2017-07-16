@@ -1,4 +1,7 @@
-flask_script
-flask
-flask_oauthlib
-python-dotenv
+flask_script==2.0.5
+flask==0.12
+flask_oauthlib==0.9.3
+python-dotenv==0.6.3
+Flask-SQLAlchemy==2.2
+SQLAlchemy-Utils==0.32.14
+psycopg2==2.7.1

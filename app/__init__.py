@@ -3,16 +3,16 @@ import os
 from logging import StreamHandler
 from dotenv import load_dotenv
 from flask import Flask
-from flask_oauthlib.client import OAuth
 
-def create_app(config_object=None, db_name=None):
+from config import config
+from app.database import db
+
+def create_app(config_name=None):
     app = Flask(__name__)
-    load_dotenv(".env")
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
-    if config_object is None:
-        app.config.from_object('config.BaseConfiguration')
-    else:
-        app.config.from_object(config_object)
+    db.init_app(app)
 
     if not app.logger.handlers:
         stream_handler = StreamHandler()
@@ -27,8 +27,8 @@ def create_app(config_object=None, db_name=None):
     else:
         app.logger.setLevel("DEBUG")
 
-
     from app.views import spotify_bp
     app.register_blueprint(spotify_bp)
 
+    app.app_context().push()
     return app
