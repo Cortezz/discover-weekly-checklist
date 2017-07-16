@@ -26,5 +26,4 @@ def drop_db():
 
 
 if __name__ == "__main__":
-    print app.config
     manager.run()

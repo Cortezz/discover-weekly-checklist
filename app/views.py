@@ -56,7 +56,7 @@ def spotify_authorized():
     spotify_service = SpotifyService(resp['access_token'])
     me = spotify_service.me()
 
-    create_user_service = CreateUserService(me['name'], me['id'])
+    create_user_service = CreateUserService(me['display_name'], me['email'], me['id'])
     user = create_user_service.call()
 
     return render_template('playlist.html', user=user)

@@ -4,12 +4,13 @@ from app.database import db
 
 class CreateUserService(object):
 
-    def __init__(self, name, spotify_id):
+    def __init__(self, name, email, spotify_id):
         self.name = name
+        self.email = email
         self.spotify_id = spotify_id
 
     def call(self):
-        user = User(name=self.name, spotify_id=self.spotify_id)
+        user = User(name=self.name, email=self.email, spotify_id=self.spotify_id)
 
         db.session.add(user)
         db.session.commit()
