@@ -1,11 +1,13 @@
 import logging
+import os
 
 from flask_script import Manager, Command, Option, Server
 from app import create_app
 
 logging.info("Starting Logger for Discover Weekly Checklist")
 
-app = create_app()
+app_env = os.environ.get('APP_ENV', 'development')
+app = create_app(app_env)
 manager = Manager(app)
 
 log = logging.getLogger(__name__)
@@ -21,6 +23,7 @@ def create_db():
 def drop_db():
     from app.database import drop_tables
     drop_tables()
+
 
 @manager.command
 def reset_db():
