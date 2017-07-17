@@ -1,7 +1,5 @@
 import logging
 import os
-import datetime
-import timedelta
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
@@ -10,7 +8,6 @@ from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
 from app.services.create_token_service import CreateTokenService
 from app.finders.user_finder import UserFinder
-from app.finders.token_finder import TokenFinder
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +19,7 @@ spotify = oauth.remote_app(
     'spotify',
     consumer_key=os.environ.get('CLIENT_ID', 'whatda'),
     consumer_secret=os.environ.get('CLIENT_SECRET', 'whatda'),
-    request_token_params={'scope': 'playlist-read-private'},
+    request_token_params={'scope': 'playlist-read-private playlist-read-collaborative'},
     base_url='https://accounts.spotify.com',
     request_token_url=None,
     access_token_url='https://accounts.spotify.com/api/token',
@@ -70,7 +67,10 @@ def spotify_authorized():
                                                   response['expires_in'], response['refresh_token'], user.id)
         token = create_token_service.call()
 
-    return render_template('playlist.html', user=user)
+    discover_weekly_playlist_meta_info = spotify_service.get_playlist(user.spotify_id, "Discover Weekly")
+    discover_weekly_playlist = spotify_service.discover_weekly_playlist(discover_weekly_playlist_meta_info['id'])
+
+    return render_template('playlist.html', user=user, songs=discover_weekly_playlist['tracks']['items'])
 
 
 @spotify_bp.route('/playlist')
