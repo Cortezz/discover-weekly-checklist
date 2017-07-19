@@ -7,6 +7,7 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, r
 from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
 from app.services.create_token_service import CreateTokenService
+from app.services.create_playlist_songs_service import CreatePlaylistSongsService
 from app.finders.user_finder import UserFinder
 
 log = logging.getLogger(__name__)
@@ -69,6 +70,9 @@ def spotify_authorized():
 
     discover_weekly_playlist_meta_info = spotify_service.get_playlist(user.spotify_id, "Discover Weekly")
     discover_weekly_playlist = spotify_service.discover_weekly_playlist(discover_weekly_playlist_meta_info['id'])
+
+    create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist, discover_weekly_playlist.id)
+    create_playlist_songs_service.call()
 
     return render_template('playlist.html', user=user, songs=discover_weekly_playlist['tracks']['items'])
 
