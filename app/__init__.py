@@ -1,11 +1,12 @@
 import os
 
 from logging import StreamHandler
-from dotenv import load_dotenv
 from flask import Flask
+from flask_login import LoginManager
 
 from config import config
 from app.database import db
+from app.finders.user_finder import UserFinder
 
 def create_app(config_name=None):
     app = Flask(__name__)
@@ -13,6 +14,7 @@ def create_app(config_name=None):
     config[config_name].init_app(app)
 
     db.init_app(app)
+    login_manager = LoginManager(app)
 
     if not app.logger.handlers:
         stream_handler = StreamHandler()
@@ -27,8 +29,13 @@ def create_app(config_name=None):
     else:
         app.logger.setLevel("DEBUG")
 
-    from app.views import spotify_bp
-    app.register_blueprint(spotify_bp)
+    from app.views import discover_weekly
+    app.register_blueprint(discover_weekly)
+
+    login_manager.login_view = "discover_weekly.login"
+    login_manager.user_loader(UserFinder.get_from_id)
+    login_manager.login_message_category = 'info'
+    login_manager.needs_refresh_message_category = 'info'
 
     app.app_context().push()
     return app
