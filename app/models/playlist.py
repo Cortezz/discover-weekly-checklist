@@ -1,5 +1,6 @@
 from sqlalchemy_utils import UUIDType
 
+from app.models.song import Song
 from .base import BaseModel
 from app.database import db
 
@@ -10,3 +11,4 @@ class Playlist(BaseModel):
     spotify_id = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(UUIDType(binary=False), db.ForeignKey('user.id'), nullable=False, index=True, unique=False)
+    songs = db.relationship(Song)

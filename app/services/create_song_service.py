@@ -10,7 +10,7 @@ class CreateSongService(object):
         self.playlist_id = playlist_id
 
     def call(self):
-        song = Song(self.artist, self.title, self.playlist_id)
+        song = Song(artist=self.artist, title=self.title, playlist_id=self.playlist_id)
 
         db.session.add(song)
         db.session.commit()

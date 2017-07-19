@@ -11,10 +11,12 @@ class CreatePlaylistSongsService(object):
 
         for song in self.spotify_weekly_playlist_json['tracks']['items']:
             artists = ""
-            for artist in song['artists']:
+
+            for artist in song['track']['artists']:
                 if not artists:
-                    artists = artist
+                    artists = artist['name']
                 else:
-                    artists += ", {}".format(artists)
-                create_song_service = CreateSongService(artists, song['name'], self.playlist_id)
+                    artists += ", {}".format(artist['name'])
+
+                create_song_service = CreateSongService(artists, song['track']['name'], self.playlist_id)
                 create_song_service.call()
