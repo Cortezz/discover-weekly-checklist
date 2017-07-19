@@ -7,6 +7,7 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, r
 from app.services.spotify_service import SpotifyService
 from app.services.create_user_service import CreateUserService
 from app.services.create_token_service import CreateTokenService
+from app.services.create_playlist_songs_service import CreatePlaylistSongsService
 from app.services.create_playlist_service import CreatePlaylistService
 from app.finders.user_finder import UserFinder
 
@@ -78,7 +79,10 @@ def spotify_authorized():
     )
     playlist = create_playlist_service.call()
 
-    return render_template('playlist.html', playlist=playlist)
+    create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist, playlist.id)
+    create_playlist_songs_service.call()
+
+    return render_template('playlist.html', playlist=playlist, songs=playlist.songs)
 
 
 @spotify_bp.route('/playlist')

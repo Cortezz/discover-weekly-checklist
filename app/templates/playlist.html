@@ -2,3 +2,10 @@
 {{ playlist.spotify_id }}
 {{ playlist.date }}
 {{ playlist.user_id }}
+
+
+<ul>
+    {% for song in playlist.songs %}
+        <li>{{ song.artist }} - {{ song.title }}</li>
+    {% endfor %}
+</ul>
