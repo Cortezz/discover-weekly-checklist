@@ -55,7 +55,6 @@ body{
 
 .playlist-song-artist{
     margin-left: 100px;
-    overflow: hidden;
     text-align: left;
     width: 250px;
     text-overflow: ellipsis;
