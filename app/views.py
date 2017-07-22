@@ -104,7 +104,11 @@ def playlist():
                                                                    discover_weekly_playlist.id)
         create_playlist_songs_service.call()
 
+    liked_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'liked')
+    normal_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'normal')
+
     return render_template('playlist.html', playlist=discover_weekly_playlist,
+                           liked_songs_count=len(liked_songs), normal_songs_count=len(normal_songs),
                            discover_weekly_endpoint=os.environ.get('DISCOVER_WEEKLY_ENDPOINT'))
 
 
