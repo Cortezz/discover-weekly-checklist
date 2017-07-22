@@ -18,5 +18,5 @@ class CreatePlaylistSongsService(object):
                 else:
                     artists += ", {}".format(artist['name'])
 
-                create_song_service = CreateSongService(artists, song['track']['name'], self.playlist_id)
-                create_song_service.call()
+            create_song_service = CreateSongService(artists, song['track']['name'], self.playlist_id)
+            create_song_service.call()

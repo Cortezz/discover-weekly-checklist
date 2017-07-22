@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from sqlalchemy_utils import UUIDType
 
 from app.database import db
 from .base import BaseModel

@@ -1,5 +1,6 @@
 import logging
 import os
+import datetime
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
@@ -12,6 +13,7 @@ from app.services.create_token_service import CreateTokenService
 from app.services.create_playlist_songs_service import CreatePlaylistSongsService
 from app.services.create_playlist_service import CreatePlaylistService
 from app.finders.user_finder import UserFinder
+from app.finders.playlist_finder import PlaylistFinder
 
 log = logging.getLogger(__name__)
 
@@ -78,22 +80,26 @@ def spotify_authorized():
     return redirect(url_for('discover_weekly.playlist'))
 
 
-@discover_weekly.route('/playlist')
+@discover_weekly.route('/discover_weekly')
 @login_required
 def playlist():
-    spotify_service = SpotifyService(current_user.token.access_token)
-    discover_weekly_playlist_meta_info = spotify_service.get_playlist(current_user.spotify_id, "Discover Weekly")
-    discover_weekly_playlist_json = spotify_service.discover_weekly_playlist(discover_weekly_playlist_meta_info['id'])
+    discover_weekly_playlist = PlaylistFinder.get_last_playlist_by_user_id(current_user.id)
 
-    create_playlist_service = CreatePlaylistService(
-        discover_weekly_playlist_json['id'],
-        discover_weekly_playlist_json['tracks']['items'][0]['added_at'],
-        current_user.id
-    )
-    discover_weekly_playlist = create_playlist_service.call()
+    if not discover_weekly_playlist or (datetime.datetime.utcnow() - discover_weekly_playlist.date).days >= 7:
 
-    create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist_json, discover_weekly_playlist.id)
-    create_playlist_songs_service.call()
+        spotify_service = SpotifyService(current_user.token.access_token)
+        discover_weekly_playlist_meta_info = spotify_service.get_playlist(current_user.spotify_id, "Discover Weekly")
+        discover_weekly_playlist_json = spotify_service.discover_weekly_playlist(discover_weekly_playlist_meta_info['id'])
+
+        create_playlist_service = CreatePlaylistService(
+            discover_weekly_playlist_json['id'],
+            discover_weekly_playlist_json['tracks']['items'][0]['added_at'],
+            current_user.id
+        )
+        discover_weekly_playlist = create_playlist_service.call()
+
+        create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist_json, discover_weekly_playlist.id)
+        create_playlist_songs_service.call()
 
     return render_template('playlist.html', playlist=discover_weekly_playlist)
 
