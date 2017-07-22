@@ -55,7 +55,6 @@ body{
 
 .playlist-song-artist{
     margin-left: 100px;
-    overflow: hidden;
     text-align: left;
     width: 250px;
     text-overflow: ellipsis;
@@ -68,8 +67,18 @@ body{
     align-items: center;
 }
 
+.single-action{
+    margin-left: 10px;
+    margin-right: 26px;
+}
+
 .playlist-song-action{
     margin-left: 10px;
+}
+
+.playlist-song-action:hover{
+    cursor: pointer;
+    color: #DCDCDC;
 }
 
 

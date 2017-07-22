@@ -32,13 +32,21 @@
             {% if song.status|string != 'SongStatus.removed' %}
 
                 <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
-                    <div class="playlist-song-actions flex-row">
-                        <div class="playlist-song-action" data-status="liked">
-                            <i class="icon-heart-empty like-song icon-large"></i>
-                        </div>
-                        <div class="playlist-song-action" data-status="removed">
-                            <i class="icon-remove-sign remove-song icon-large"></i>
-                        </div>
+                    <div class="playlist-song-actions">
+                        {% if song.status|string == 'SongStatus.normal' %}
+                            <div class="flex-row">
+                                <div class="playlist-song-action" data-status="liked">
+                                    <i class="icon-heart-empty icon-large"></i>
+                                </div>
+                                <div class="playlist-song-action" data-status="removed">
+                                    <i class="icon-remove-sign icon-large"></i>
+                                </div>
+                            </div>
+                        {% elif song.status|string == 'SongStatus.liked' %}
+                            <div class="playlist-song-action single-action" data-status="normal">
+                                <i class="icon-heart icon-large"></i>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="playlist-song-artist">
                         {{ song.artist }}
