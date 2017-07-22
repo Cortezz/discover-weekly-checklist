@@ -1,5 +1,6 @@
 import logging
 import os
+import datetime
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
@@ -84,7 +85,8 @@ def spotify_authorized():
 def playlist():
     discover_weekly_playlist = PlaylistFinder.get_last_playlist_by_user_id(current_user.id)
 
-    if not discover_weekly_playlist:
+    if not discover_weekly_playlist or (datetime.datetime.utcnow() - discover_weekly_playlist.date).days >= 7:
+
         spotify_service = SpotifyService(current_user.token.access_token)
         discover_weekly_playlist_meta_info = spotify_service.get_playlist(current_user.spotify_id, "Discover Weekly")
         discover_weekly_playlist_json = spotify_service.discover_weekly_playlist(discover_weekly_playlist_meta_info['id'])
