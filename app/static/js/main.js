@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('.playlist-song-action').click(function () {
-        var songId = $(this).parents('.playlist-song-container').data('id');
+        var $row = $(this).parents('.playlist-song-container')
+        var songId = $row.data('id');
         var status = $(this).data('status');
 
         $.ajax({
@@ -13,6 +14,7 @@ $(document).ready(function() {
             data: JSON.stringify({'status': status })
         }).done(function(response){
             console.log(response);
+            $row.fadeOut();
         }).fail(function(response){
             console.log(response);
         });
