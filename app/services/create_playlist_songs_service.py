@@ -1,3 +1,4 @@
+from app.models.song import SongStatus
 from app.services.create_song_service import CreateSongService
 
 
@@ -18,5 +19,5 @@ class CreatePlaylistSongsService(object):
                 else:
                     artists += ", {}".format(artist['name'])
 
-            create_song_service = CreateSongService(artists, song['track']['name'], self.playlist_id)
+            create_song_service = CreateSongService(artists, song['track']['name'], self.playlist_id, SongStatus.normal)
             create_song_service.call()
