@@ -29,23 +29,25 @@
             </div>
         </div>
         {% for song in playlist.songs %}
+            {% if song.status|string != 'SongStatus.removed' %}
 
-            <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
-                <div class="playlist-song-actions flex-row">
-                    <div class="playlist-song-action" data-status="liked">
-                        <i class="icon-heart-empty like-song icon-large"></i>
+                <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
+                    <div class="playlist-song-actions flex-row">
+                        <div class="playlist-song-action" data-status="liked">
+                            <i class="icon-heart-empty like-song icon-large"></i>
+                        </div>
+                        <div class="playlist-song-action" data-status="removed">
+                            <i class="icon-remove-sign remove-song icon-large"></i>
+                        </div>
                     </div>
-                    <div class="playlist-song-action" data-status="removed">
-                        <i class="icon-remove-sign remove-song icon-large"></i>
+                    <div class="playlist-song-artist">
+                        {{ song.artist }}
+                    </div>
+                    <div class="playlist-song-title">
+                        {{ song.title }}
                     </div>
                 </div>
-                <div class="playlist-song-artist">
-                    {{ song.artist }}
-                </div>
-                <div class="playlist-song-title">
-                    {{ song.title }}
-                </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
