@@ -1,9 +1,10 @@
 import logging
 import os
 import datetime
+import json
 
 from flask_oauthlib.client import OAuth, OAuthException
-from flask import Blueprint, redirect, url_for, request, session, current_app, render_template
+from flask import Blueprint, redirect, url_for, request, session, current_app, render_template, Response
 from flask_login import login_user, login_required, current_user, logout_user
 
 
@@ -14,6 +15,7 @@ from app.services.create_playlist_songs_service import CreatePlaylistSongsServic
 from app.services.create_playlist_service import CreatePlaylistService
 from app.finders.user_finder import UserFinder
 from app.finders.playlist_finder import PlaylistFinder
+from app.finders.song_finder import SongFinder
 
 log = logging.getLogger(__name__)
 
@@ -83,7 +85,7 @@ def spotify_authorized():
 @discover_weekly.route('/discover_weekly')
 @login_required
 def playlist():
-    discover_weekly_playlist = PlaylistFinder.get_last_playlist_by_user_id(current_user.id)
+    discover_weekly_playlist = PlaylistFinder.get_last_playlist_from_user_id(current_user.id)
 
     if not discover_weekly_playlist or (datetime.datetime.utcnow() - discover_weekly_playlist.date).days >= 7:
 
@@ -98,10 +100,42 @@ def playlist():
         )
         discover_weekly_playlist = create_playlist_service.call()
 
-        create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist_json, discover_weekly_playlist.id)
+        create_playlist_songs_service = CreatePlaylistSongsService(discover_weekly_playlist_json,
+                                                                   discover_weekly_playlist.id)
         create_playlist_songs_service.call()
 
-    return render_template('playlist.html', playlist=discover_weekly_playlist)
+    return render_template('playlist.html', playlist=discover_weekly_playlist,
+                           discover_weekly_endpoint=os.environ.get('DISCOVER_WEEKLY_ENDPOINT'))
+
+
+@discover_weekly.route('/songs/<song_id>/status', methods=['PUT'])
+def update_status(song_id):
+    song = SongFinder.get_from_id(song_id)
+
+    if not song:
+        return Response(
+            response=json.dumps({"error": "Song not found"}),
+            status=404,
+            mimetype='application/json'
+        )
+
+    data = request.json
+    new_song_status = data.get('status')
+    if new_song_status not in ['normal', 'liked', 'removed']:
+        return Response(
+            response=json.dumps({"error": "Status value must be 'normal', 'liked' or 'removed'"}),
+            status=400,
+            mimetype='application/json'
+        )
+
+    song.status = new_song_status
+    song.save()
+
+    return Response(
+        response=json.dumps({'status': 'success'}),
+        status=200,
+        mimetype='application/json'
+    )
 
 
 def get_spotify_oauth_token():

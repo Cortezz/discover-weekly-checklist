@@ -30,13 +30,13 @@
         </div>
         {% for song in playlist.songs %}
 
-            <div class="playlist-song-container flex-row">
+            <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
                 <div class="playlist-song-actions flex-row">
-                    <div class="playlist-song-action">
-                        <i class="icon-heart-empty icon-large"></i>
+                    <div class="playlist-song-action" data-status="liked">
+                        <i class="icon-heart-empty like-song icon-large"></i>
                     </div>
-                    <div class="playlist-song-action">
-                        <i class="icon-remove-sign icon-large"></i>
+                    <div class="playlist-song-action" data-status="removed">
+                        <i class="icon-remove-sign remove-song icon-large"></i>
                     </div>
                 </div>
                 <div class="playlist-song-artist">
@@ -50,4 +50,12 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+                        crossorigin="anonymous">
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+    var endpoint = '{{ discover_weekly_endpoint }}';
+</script>
 </body>
