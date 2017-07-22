@@ -1,0 +1,81 @@
+body{
+    font-family: "Lato";
+}
+
+.background{
+    background: #ff512f;
+    background: -webkit-linear-gradient(to right, #ff512f, #dd2476);
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    width:100%;
+    overflow: hidden;
+
+}
+
+.playlist-info{
+    color: white;
+    width: 100%;
+    margin: 25px auto;
+    text-align: center;
+}
+
+
+.playlist-container{
+    margin: 50px auto;
+    width: 800px;
+    border-radius: 10px 10px 10px 10px;
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-song-container{
+    color: white;
+    border-radius: 100px 101px 101px 101px;
+    -moz-border-radius: 100px 101px 101px 101px;
+    -webkit-border-radius: 100px 101px 101px 101px;
+    border: 2px solid white;
+    height: 40px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.playlist-label{
+    border: none;
+    margin-left: 10px;
+    font-weight: 400;
+    align-items: flex-end;
+}
+
+.playlist-song-title{
+    width: 250px;
+    margin-left: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.playlist-song-artist{
+    margin-left: 100px;
+    overflow: hidden;
+    text-align: left;
+    width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.playlist-song-actions{
+    margin-left: 20px;
+    align-items: center;
+}
+
+.playlist-song-action{
+    margin-left: 10px;
+}
+
+
+.flex-row{
+    display: -webkit-flex; /* Safari */
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}

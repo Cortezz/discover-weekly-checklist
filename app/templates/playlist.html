@@ -1,7 +1,53 @@
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Discover Weekly Checklist</title>
 
-<ul>
-    {% for song in playlist.songs %}
-        <li>{{ song.artist }} - {{ song.title }}</li>
-    {% endfor %}
-</ul>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600,700" rel="stylesheet">
+</head>
+<body>
+<div class="background container">
+    <div class="playlist-info">
+            <h1>Discover Weekly Playlist</h1>
+            from {{ playlist.date }}
+    </div>
+
+    <div class="playlist-container">
+        <div class="playlist-song-container playlist-label flex-row">
+            <div class="playlist-song-actions flex-row">
+                Actions
+            </div>
+            <div class="playlist-song-artist">
+                Artist
+            </div>
+            <div class="playlist-song-title">
+                Title
+            </div>
+        </div>
+        {% for song in playlist.songs %}
+
+            <div class="playlist-song-container flex-row">
+                <div class="playlist-song-actions flex-row">
+                    <div class="playlist-song-action">
+                        <i class="icon-heart-empty icon-large"></i>
+                    </div>
+                    <div class="playlist-song-action">
+                        <i class="icon-remove-sign icon-large"></i>
+                    </div>
+                </div>
+                <div class="playlist-song-artist">
+                    {{ song.artist }}
+                </div>
+                <div class="playlist-song-title">
+                    {{ song.title }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
