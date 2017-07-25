@@ -1,4 +1,9 @@
 import requests
+import os
+
+from requests.auth import HTTPBasicAuth
+
+from app.finders.user_finder import UserFinder
 
 
 class SpotifyService:
@@ -24,12 +29,15 @@ class SpotifyService:
         endpoint = self.base_url + '/users/{}/playlists'.format(user_id)
 
         response = requests.get(endpoint, headers=self.headers)
+        data = response.json()
 
         if response.status_code == 200:
-            playlist = response.json()
-            for playlist in playlist['items']:
+            for playlist in data['items']:
                 if playlist['name'] == name:
                     return playlist
+
+        if response.status_code == 401 and data['error']['message'] == 'The access token expired':
+            self._renew_access_token(user_id)
 
         return None
 
@@ -40,5 +48,29 @@ class SpotifyService:
 
         if response.status_code == 200:
             return response.json()
+
+        return None
+
+
+    def _renew_access_token(self, user_id):
+        endpoint = 'https://accounts.spotify.com/api/token'
+        user = UserFinder.get_from_spotify_id(user_id)
+
+        if user:
+            data = {
+                "grant_type": "refresh_token",
+                "refresh_token": user.token.refresh_token
+            }
+
+            response = requests.post(
+                endpoint,
+                auth=HTTPBasicAuth(os.environ.get('CLIENT_ID'), os.environ.get('CLIENT_SECRET')),
+                data=data
+            )
+            data = response.json()
+
+            if data.get('access_token'):
+                user.token.access_token = data['access_token']
+                user.token()
 
         return None
