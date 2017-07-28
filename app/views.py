@@ -2,6 +2,7 @@ import logging
 import os
 import datetime
 import json
+import arrow
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template, Response
@@ -106,8 +107,9 @@ def playlist():
 
     liked_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'liked')
     normal_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'normal')
+    created_at_friendly = arrow.get(discover_weekly_playlist.created_at).humanize()
 
-    return render_template('playlist.html', playlist=discover_weekly_playlist,
+    return render_template('playlist.html', playlist=discover_weekly_playlist, created_at=created_at_friendly,
                            liked_songs_count=len(liked_songs), normal_songs_count=len(normal_songs),
                            discover_weekly_endpoint=os.environ.get('DISCOVER_WEEKLY_ENDPOINT'))
 
@@ -146,7 +148,3 @@ def update_status(song_id):
 def logout():
     logout_user()
     return redirect(url_for('discover_weekly.home'))
-
-
-def get_spotify_oauth_token():
-    return session.get('oauth_token')
