@@ -38,7 +38,7 @@ class DevelopmentConfig(BaseConfig):
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = BaseConfig.SQLALCHEMY_DATABASE_URI + '_test'
+    SQLALCHEMY_DATABASE_URI = "{}_test".format(BaseConfig.SQLALCHEMY_DATABASE_URI)
 
 
 config = {
