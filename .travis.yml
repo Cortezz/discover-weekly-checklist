@@ -5,7 +5,12 @@ services:
   - postgresql
 sudo: false
 
+variables:
+  SQLALCHEMY_DATABASE_URI: postgresql://localhost/discover_weekly_checklist
+
+
 install:
   - pip3 install -r requirements.txt
 script:
+  - python3 manage.py create_db
   - python3 manage.py run_tests
