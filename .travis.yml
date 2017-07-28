@@ -6,7 +6,7 @@ services:
 sudo: false
 
 variables:
-  SQLALCHEMY_DATABASE_URI: postgresql://localhost/discover_weekly_checklist
+  SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://localhost/discover_weekly_checklist
 
 
 install:
