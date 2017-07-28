@@ -9,9 +9,6 @@ class BaseTestCase(TestCase):
     def setUp(self):
         self.app = create_app('testing')
         self.test_app = self.app.test_client()
-        if db.engine.url.database != 'discover_weekly_checklist_test':
-            raise ValueError("Use 'discover_weekly_checklist_test'. Currently using: {}".format(db.engine.url.database))
-
         create_tables()
 
     def tearDown(self):
