@@ -11,6 +11,9 @@
 </head>
 <body>
 <div class="background container">
+    <div class="logout-button-area">
+        <a href="{{ url_for('discover_weekly.logout') }}"><div class="pillow-button">Logout</div></a>
+    </div>
     <div class="playlist-info">
             <h1>Discover Weekly Playlist</h1>
             from {{ playlist.date }}<br>

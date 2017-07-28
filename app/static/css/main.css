@@ -88,3 +88,31 @@ body{
     flex-direction: row;
     justify-content: flex-start;
 }
+
+
+.logout-button-area{
+    margin-top: 20px;
+    margin-bottom: 60px;
+    margin-right: 50px;
+}
+
+.pillow-button{
+    float:right;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 100px 101px 101px 101px;
+    -moz-border-radius: 100px 101px 101px 101px;
+    -webkit-border-radius: 100px 101px 101px 101px;
+    border: 2px solid white;
+}
+
+.pillow-button:hover{
+    color: #ff512f;
+    cursor: pointer;
+    background: white;
+}
+
+
+.pillow-button a:hover{
+    color: #ff512f;
+}
