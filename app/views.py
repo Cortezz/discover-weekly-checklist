@@ -36,17 +36,17 @@ spotify = oauth.remote_app(
 
 
 @discover_weekly.route('/')
-def index():
-    return redirect(url_for('discover_weekly.login'))
-
-
-@discover_weekly.route('/login')
-def login():
+def home():
     if current_user.is_authenticated:
         redirect(url_for('discover_weekly.playlist'))
+    else:
+        return render_template('home.html')
+
+
+@discover_weekly.route('/login', methods=['POST'])
+def login():
     callback = url_for(
         'discover_weekly.spotify_authorized',
-        next=request.args.get('next') or request.referrer or None,
         _external=True
     )
     return spotify.authorize(callback=callback)
@@ -140,6 +140,12 @@ def update_status(song_id):
         status=200,
         mimetype='application/json'
     )
+
+
+@discover_weekly.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('discover_weekly.home'))
 
 
 def get_spotify_oauth_token():
