@@ -107,7 +107,8 @@ def playlist():
 
     liked_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'liked')
     normal_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'normal')
-    created_at_friendly = arrow.get(discover_weekly_playlist.created_at).humanize()
+
+    created_at_friendly = arrow.get(discover_weekly_playlist.date).humanize()
 
     return render_template('playlist.html', playlist=discover_weekly_playlist, created_at=created_at_friendly,
                            liked_songs_count=len(liked_songs), normal_songs_count=len(normal_songs),

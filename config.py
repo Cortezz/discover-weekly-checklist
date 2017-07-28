@@ -35,6 +35,17 @@ class DevelopmentConfig(BaseConfig):
     def init_app(cls, app):
         super(DevelopmentConfig, cls).init_app(app)
 
+
+class TestingConfig(BaseConfig):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = BaseConfig.SQLALCHEMY_DATABASE_URI
+    if not SQLALCHEMY_DATABASE_URI.endswith('_test'):
+        SQLALCHEMY_DATABASE_URI += '_test'
+
+
 config = {
     'development': DevelopmentConfig,
+    'testing': TestingConfig
 }
+
+
