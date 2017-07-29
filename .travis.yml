@@ -8,6 +8,7 @@ sudo: false
 env:
   APP_ENV: testing
   SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://localhost/discover_weekly_checklist
+  POSTGRES_DB: discover_weekly_checklist_test
 
 
 install:
