@@ -3,18 +3,17 @@ python:
   - "3.6"
 services:
   - postgresql
-sudo: false
 
 env:
   APP_ENV: testing
   SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://localhost/discover_weekly_checklist
-  POSTGRES_DB: discover_weekly_checklist_test
+
+install:
+  - pip3 install -r requirements.txt
 
 before_script:
   - psql -c 'create database discover_weekly_checklist_test;' -U postgres
 
-install:
-  - pip3 install -r requirements.txt
 script:
   - python3 manage.py create_db
   - python3 manage.py run_tests
