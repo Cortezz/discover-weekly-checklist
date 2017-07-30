@@ -17,9 +17,9 @@ $('.playlist-song-actions').delegate('.playlist-song-action','click', function (
             $row.find('.playlist-song-actions').html(
                 "<div class='flex-row'>" +
                 "<div class='playlist-song-action' data-status='liked'> " +
-                "<i class='icon-heart-empty icon-large'></i> </div> " +
+                "<i class='fa fa-heart-o'></i> </div> " +
                 "<div class='playlist-song-action' data-status='removed'>" +
-                " <i class='icon-remove-sign icon-large'></i> </div></div>"
+                " <i class='fa fa-trash-o'></i> </div></div>"
             )
         }
         if (status == 'removed') {
@@ -28,11 +28,37 @@ $('.playlist-song-actions').delegate('.playlist-song-action','click', function (
         if (status == 'liked') {
              $row.find('.playlist-song-actions').html("<div class='playlist-song-action single-action' " +
                  "data-status='normal'>" +
-                 " <i class='icon-heart icon-large'></i> </div>"
+                 " <i class='fa fa-heart'></i> </div>"
             )
         }
         console.log(response);
     }).fail(function(response){
         console.log(response);
     });
+});
+
+$( "#filterSongs" ).keyup(function() {
+    var i;
+    var $filter = $('#filterSongs').val().toUpperCase();
+    var $songs = $(".playlist-songs").find('.playlist-song-container ');
+    var numberOfSongs = $songs.size();
+
+    for (i = 0; i < $songs.length; i++) {
+        var song = $songs.eq(i).find('.playlist-song-artist');
+        var artist = $songs.eq(i).find('.playlist-song-title');
+        if (song.text().toUpperCase().indexOf($filter) > -1 || artist.text().toUpperCase().indexOf($filter) > -1) {
+            $songs[i].style.display = "";
+        } else {
+            $songs[i].style.display = "none";
+        }
+    }
+
+    if ($(".playlist-song-container ").filter(":hidden").size() >= numberOfSongs) {
+        $(".playlist-label").hide();
+        $(".playlist-empty-state").show();
+    }
+    else {
+        $(".playlist-label").show();
+        $(".playlist-empty-state").hide();
+    }
 });
