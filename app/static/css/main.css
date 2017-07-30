@@ -2,6 +2,10 @@ body{
     font-family: "Lato";
 }
 
+.inline{
+    display: inline;
+}
+
 .background{
     background: #ff512f;
     background: -webkit-linear-gradient(to right, #ff512f, #dd2476);
@@ -18,6 +22,9 @@ body{
     text-align: center;
 }
 
+playlist-info-line{
+    display: inline;
+}
 
 .playlist-container{
     margin: 50px auto;

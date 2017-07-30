@@ -22,14 +22,27 @@ $('.playlist-song-actions').delegate('.playlist-song-action','click', function (
                 " <i class='fa fa-trash-o'></i> </div></div>"
             )
         }
+        var $totalSongs = $("#numberOfSongs");
         if (status == 'removed') {
             $row.fadeOut();
+            $totalSongs.text(parseInt($totalSongs.text()) - 1);
+
+            if ($(".playlist-song-container ").filter(":visible").size() == 2) {
+                $("#filterSongs").val('');
+                $("#filterSongs").trigger('keyup');
+            }
         }
+
         if (status == 'liked') {
              $row.find('.playlist-song-actions').html("<div class='playlist-song-action single-action' " +
                  "data-status='normal'>" +
                  " <i class='fa fa-heart'></i> </div>"
-            )
+            );
+
+            var $likedSongs = $("#likedSongs");
+            $likedSongs.text(parseInt($likedSongs.text()) +1);
+
+            $totalSongs.text(parseInt($totalSongs.text()) - 1);
         }
         console.log(response);
     }).fail(function(response){
@@ -37,7 +50,7 @@ $('.playlist-song-actions').delegate('.playlist-song-action','click', function (
     });
 });
 
-$( "#filterSongs" ).keyup(function() {
+$( "#filterSongs" ).on('keyup', function () {
     var i;
     var $filter = $('#filterSongs').val().toUpperCase();
     var $songs = $(".playlist-songs").find('.playlist-song-container ');

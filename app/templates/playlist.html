@@ -16,9 +16,22 @@
     </div>
     <div class="playlist-info">
             <h1>Discover Weekly Playlist</h1>
-            Created {{ created_at }}<br>
-            You've liked {{ liked_songs_count }} songs.<br>
-            There's {{ normal_songs_count }} waiting to be liked or discarded.
+            <div class="playlist-info-line">Created {{ created_at }}</div>
+            <div>
+                You've liked <div id="likedSongs" class="inline">{{ liked_songs_count }}</div>
+                {% if liked_songs_count == 1 %}
+                    song.
+                {% else %}
+                    songs.
+                {% endif %}
+            </div>
+            <div class="playlist-info-line">
+                {% if normal_songs_count == 0 %}
+                    Hoooraaaay! You've cleared this week's playlist!
+                {% else %}
+                    There's <div id="numberOfSongs" class="inline">{{ normal_songs_count }}</div> waiting to be liked or discarded.
+                {% endif %}
+            </div>
     </div>
 
     <div class="playlist-search-container">
@@ -58,7 +71,7 @@
                                 </div>
                             {% elif song.status|string == 'SongStatus.liked' %}
                                 <div class="playlist-song-action single-action" data-status="normal">
-                                    <i class="icon-heart icon-large"></i>
+                                    <i class="fa fa-heart icon-large"></i>
                                 </div>
                             {% endif %}
                         </div>
