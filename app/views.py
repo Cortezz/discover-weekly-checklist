@@ -39,7 +39,7 @@ spotify = oauth.remote_app(
 @discover_weekly.route('/')
 def home():
     if current_user.is_authenticated:
-        redirect(url_for('discover_weekly.playlist'))
+        return redirect(url_for('discover_weekly.playlist'))
     else:
         return render_template('home.html')
 

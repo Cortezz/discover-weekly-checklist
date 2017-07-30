@@ -8,7 +8,7 @@ body{
     background: linear-gradient(to right, #ff512f, #dd2476);
     width:100%;
     overflow: hidden;
-
+    min-height: 100%;
 }
 
 .playlist-info{
@@ -61,6 +61,10 @@ body{
     overflow: hidden;
 }
 
+.playlist-empty-state{
+    color: white;
+    display: none;
+}
 
 .playlist-song-actions{
     margin-left: 20px;
@@ -115,4 +119,58 @@ body{
 
 .pillow-button a:hover{
     color: #ff512f;
+}
+
+
+.playlist-search-container{
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+}
+
+.playlist-search-box{
+    height: 35px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.playlist-search-icon{
+    color: white;
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.playlist-search-box input{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    background: transparent;
+    color: white;
+    border-radius: 100px 101px 101px 101px;
+    -moz-border-radius: 100px 101px 101px 101px;
+    -webkit-border-radius: 100px 101px 101px 101px;
+    border: 2px solid white;
+}
+
+.playlist-search-box input:focus{
+    outline: none;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+input::-webkit-input-placeholder { /* Chrome */
+  color: #DCDCDC;
+}
+input:-ms-input-placeholder { /* IE 10+ */
+  color: #DCDCDC;
+}
+.playlist-search-box input:-moz-placeholder { /* Firefox 19+ */
+  color: #DCDCDC;
+  opacity: 1;
+}
+.playlist-search-box input:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #DCDCDC;
+  opacity: 1;
 }
