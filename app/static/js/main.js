@@ -1,3 +1,6 @@
+$("#login-form").click(function() {
+    $(this).submit();
+});
 
 $('.playlist-song-actions').delegate('.playlist-song-action','click', function () {
     var $row = $(this).parents('.playlist-song-container');

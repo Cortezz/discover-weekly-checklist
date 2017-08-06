@@ -15,6 +15,54 @@ body{
     min-height: 100%;
 }
 
+/*Landing Page*/
+
+.landing-page-headings{
+    color: white;
+    text-align: center;
+    margin-top:100px;
+}
+
+.landing-page-title{
+    font-size: 42px;
+}
+
+.landing-page-subtitle{
+    font-size:16px;
+}
+
+.landing-page-cta-area{
+    text-align: center;
+    margin-top:50px;
+}
+
+.landing-page-cta{
+    width: 250px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.footer-twitter-logo{
+    margin-left: 5px;
+    color: white;
+}
+
+.footer-twitter-logo:hover{
+   color: #DCDCDC;
+}
+
+
+/* Discover Weekly Checklist page */
+
 .playlist-info{
     color: white;
     width: 100%;
@@ -108,13 +156,16 @@ playlist-info-line{
 }
 
 .pillow-button{
-    float:right;
     padding: 5px 10px;
     color: white;
     border-radius: 100px 101px 101px 101px;
     -moz-border-radius: 100px 101px 101px 101px;
     -webkit-border-radius: 100px 101px 101px 101px;
     border: 2px solid white;
+}
+
+.right{
+    float: right;
 }
 
 .pillow-button:hover{

@@ -51,7 +51,6 @@ class SpotifyService:
 
         return None
 
-
     def _renew_access_token(self, user_id):
         endpoint = 'https://accounts.spotify.com/api/token'
         user = UserFinder.get_from_spotify_id(user_id)
@@ -71,6 +70,6 @@ class SpotifyService:
 
             if data.get('access_token'):
                 user.token.access_token = data['access_token']
-                user.token()
+                user.token.save()
 
         return None
