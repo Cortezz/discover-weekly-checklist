@@ -2,14 +2,66 @@ body{
     font-family: "Lato";
 }
 
+.inline{
+    display: inline;
+}
+
 .background{
     background: #ff512f;
     background: -webkit-linear-gradient(to right, #ff512f, #dd2476);
     background: linear-gradient(to right, #ff512f, #dd2476);
     width:100%;
     overflow: hidden;
-
+    min-height: 100%;
 }
+
+/*Landing Page*/
+
+.landing-page-headings{
+    color: white;
+    text-align: center;
+    margin-top:100px;
+}
+
+.landing-page-title{
+    font-size: 42px;
+}
+
+.landing-page-subtitle{
+    font-size:16px;
+}
+
+.landing-page-cta-area{
+    text-align: center;
+    margin-top:50px;
+}
+
+.landing-page-cta{
+    width: 250px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.footer-twitter-logo{
+    margin-left: 5px;
+    color: white;
+}
+
+.footer-twitter-logo:hover{
+   color: #DCDCDC;
+}
+
+
+/* Discover Weekly Checklist page */
 
 .playlist-info{
     color: white;
@@ -18,6 +70,9 @@ body{
     text-align: center;
 }
 
+playlist-info-line{
+    display: inline;
+}
 
 .playlist-container{
     margin: 50px auto;
@@ -61,6 +116,10 @@ body{
     overflow: hidden;
 }
 
+.playlist-empty-state{
+    color: white;
+    display: none;
+}
 
 .playlist-song-actions{
     margin-left: 20px;
@@ -87,4 +146,89 @@ body{
     display: inline-flex;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+
+.logout-button-area{
+    margin-top: 20px;
+    margin-bottom: 60px;
+    margin-right: 50px;
+}
+
+.pillow-button{
+    padding: 5px 10px;
+    color: white;
+    border-radius: 100px 101px 101px 101px;
+    -moz-border-radius: 100px 101px 101px 101px;
+    -webkit-border-radius: 100px 101px 101px 101px;
+    border: 2px solid white;
+}
+
+.right{
+    float: right;
+}
+
+.pillow-button:hover{
+    color: #ff512f;
+    cursor: pointer;
+    background: white;
+}
+
+
+.pillow-button a:hover{
+    color: #ff512f;
+}
+
+
+.playlist-search-container{
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+}
+
+.playlist-search-box{
+    height: 35px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.playlist-search-icon{
+    color: white;
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.playlist-search-box input{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    background: transparent;
+    color: white;
+    border-radius: 100px 101px 101px 101px;
+    -moz-border-radius: 100px 101px 101px 101px;
+    -webkit-border-radius: 100px 101px 101px 101px;
+    border: 2px solid white;
+}
+
+.playlist-search-box input:focus{
+    outline: none;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+input::-webkit-input-placeholder { /* Chrome */
+  color: #DCDCDC;
+}
+input:-ms-input-placeholder { /* IE 10+ */
+  color: #DCDCDC;
+}
+.playlist-search-box input:-moz-placeholder { /* Firefox 19+ */
+  color: #DCDCDC;
+  opacity: 1;
+}
+.playlist-search-box input:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #DCDCDC;
+  opacity: 1;
 }

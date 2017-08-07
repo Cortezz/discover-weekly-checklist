@@ -2,6 +2,7 @@ import logging
 import os
 import datetime
 import json
+import arrow
 
 from flask_oauthlib.client import OAuth, OAuthException
 from flask import Blueprint, redirect, url_for, request, session, current_app, render_template, Response
@@ -36,17 +37,17 @@ spotify = oauth.remote_app(
 
 
 @discover_weekly.route('/')
-def index():
-    return redirect(url_for('discover_weekly.login'))
-
-
-@discover_weekly.route('/login')
-def login():
+def home():
     if current_user.is_authenticated:
-        redirect(url_for('discover_weekly.playlist'))
+        return redirect(url_for('discover_weekly.playlist'))
+    else:
+        return render_template('home.html')
+
+
+@discover_weekly.route('/login', methods=['POST'])
+def login():
     callback = url_for(
         'discover_weekly.spotify_authorized',
-        next=request.args.get('next') or request.referrer or None,
         _external=True
     )
     return spotify.authorize(callback=callback)
@@ -107,7 +108,9 @@ def playlist():
     liked_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'liked')
     normal_songs = SongFinder.get_playlist_songs_from_status(discover_weekly_playlist.id, 'normal')
 
-    return render_template('playlist.html', playlist=discover_weekly_playlist,
+    created_at_friendly = arrow.get(discover_weekly_playlist.date).humanize()
+
+    return render_template('playlist.html', playlist=discover_weekly_playlist, created_at=created_at_friendly,
                            liked_songs_count=len(liked_songs), normal_songs_count=len(normal_songs),
                            discover_weekly_endpoint=os.environ.get('DISCOVER_WEEKLY_ENDPOINT'))
 
@@ -142,5 +145,7 @@ def update_status(song_id):
     )
 
 
-def get_spotify_oauth_token():
-    return session.get('oauth_token')
+@discover_weekly.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('discover_weekly.home'))

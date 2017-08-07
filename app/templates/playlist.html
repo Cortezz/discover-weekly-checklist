@@ -5,17 +5,40 @@
 
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600,700" rel="stylesheet">
 </head>
 <body>
 <div class="background container">
+    <div class="logout-button-area">
+        <a href="{{ url_for('discover_weekly.logout') }}"><div class="pillow-button right">Logout</div></a>
+    </div>
     <div class="playlist-info">
             <h1>Discover Weekly Playlist</h1>
-            from {{ playlist.date }}<br>
-            You've liked {{ liked_songs_count }} songs.<br>
-            There's {{ normal_songs_count }} waiting to be liked or discarded.
+            <div class="playlist-info-line">Created {{ created_at }}</div>
+            <div>
+                You've liked <div id="likedSongs" class="inline">{{ liked_songs_count }}</div>
+                {% if liked_songs_count == 1 %}
+                    song.
+                {% else %}
+                    songs.
+                {% endif %}
+            </div>
+            <div class="playlist-info-line">
+                {% if normal_songs_count == 0 %}
+                    Hoooraaaay! You've cleared this week's playlist!
+                {% else %}
+                    There's <div id="numberOfSongs" class="inline">{{ normal_songs_count }}</div> waiting to be liked or discarded.
+                {% endif %}
+            </div>
+    </div>
+
+    <div class="playlist-search-container">
+        <div class="playlist-search-box">
+            <div class="playlist-search-icon"><i class="fa fa-search icon-large"></i></div>
+            <input type="text" id="filterSongs" placeholder="Search for an artist or song title">
+        </div>
     </div>
 
     <div class="playlist-container">
@@ -30,35 +53,38 @@
                 Title
             </div>
         </div>
-        {% for song in playlist.songs %}
-            {% if song.status|string != 'SongStatus.removed' %}
+        <div class="playlist-empty-state"> Couldn't find any song :(</div>
+        <div class="playlist-songs">
+            {% for song in playlist.songs %}
+                {% if song.status|string != 'SongStatus.removed' %}
 
-                <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
-                    <div class="playlist-song-actions">
-                        {% if song.status|string == 'SongStatus.normal' %}
-                            <div class="flex-row">
-                                <div class="playlist-song-action" data-status="liked">
-                                    <i class="icon-heart-empty icon-large"></i>
+                    <div class="playlist-song-container flex-row" data-id="{{ song.id }}">
+                        <div class="playlist-song-actions">
+                            {% if song.status|string == 'SongStatus.normal' %}
+                                <div class="flex-row">
+                                    <div class="playlist-song-action" data-status="liked">
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                    <div class="playlist-song-action" data-status="removed">
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
                                 </div>
-                                <div class="playlist-song-action" data-status="removed">
-                                    <i class="icon-remove-sign icon-large"></i>
+                            {% elif song.status|string == 'SongStatus.liked' %}
+                                <div class="playlist-song-action single-action" data-status="normal">
+                                    <i class="fa fa-heart icon-large"></i>
                                 </div>
-                            </div>
-                        {% elif song.status|string == 'SongStatus.liked' %}
-                            <div class="playlist-song-action single-action" data-status="normal">
-                                <i class="icon-heart icon-large"></i>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="playlist-song-artist">
+                            {{ song.artist }}
+                        </div>
+                        <div class="playlist-song-title">
+                            {{ song.title }}
+                        </div>
                     </div>
-                    <div class="playlist-song-artist">
-                        {{ song.artist }}
-                    </div>
-                    <div class="playlist-song-title">
-                        {{ song.title }}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 

@@ -1,6 +1,32 @@
-Heyl, login!
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Discover Weekly Checklist</title>
 
-<form action="/auth" method="post">
-    <button type="submit">Auth</button>
-</form>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600,700" rel="stylesheet">
+</head>
+<body>
+<div class="background container">
+    <div class="landing-page-headings">
+        <div class="landing-page-title">Discover Weekly Checklist</div>
+        <div class="landing-page-subtitle">Transform your Discover Weekly playlist into a checklist</div>
+        <div class="landing-page-cta-area">
+            <form action="/login" method="post" id='login-form'>
+                <div class="pillow-button landing-page-cta"><i class="fa fa-spotify"></i> Login</div>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <i>Made by José Cortez </i><a href="https://twitter.com/jospcortez"><i class="fa fa-twitter footer-twitter-logo"></i></a>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+                        crossorigin="anonymous">
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
